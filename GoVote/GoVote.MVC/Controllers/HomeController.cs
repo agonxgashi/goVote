@@ -21,6 +21,9 @@ namespace GoVote.MVC.Controllers
 
         public ActionResult MakeQuestion(Question question, ICollection<string> Answers)
         {
+            if (question == null || String.IsNullOrEmpty(question.QuestionText) || Answers == null)
+                return RedirectToAction("Index");
+
             foreach (string answer in Answers)
                 question.Answers.Add(new Answer() {AnswerText = answer});
 
@@ -40,6 +43,9 @@ namespace GoVote.MVC.Controllers
 
         public ActionResult Question(string questionId)
         {
+            if (String.IsNullOrEmpty(questionId))
+                return RedirectToAction("Index");
+
             HttpClient c     = new HttpClient();
             var a            = new HttpRequestMessage(HttpMethod.Get, ApiHelper.GetApiUrl() + "vote?uniqueId=" + questionId);
             c.Timeout        = TimeSpan.FromSeconds(10);
