@@ -1,0 +1,35 @@
+﻿@using GoVote.MVC.Models
+@model IEnumerable<GoVote.MVC.Models.QuestionResponse>
+
+@{
+    if (@Model != null)
+    {
+            <div id="chart"></div>
+
+            <script>
+                var chart = c3.generate({
+                    data: {
+                        columns: [
+                            @{
+                                foreach (QuestionResponse q in Model)
+                                {
+                                    <text>['@q.AnswerText', @q.Count],   </text>
+                                }
+                            }
+                        ],
+                        type: 'pie',
+                    }
+                });
+            </script>
+    }
+    else
+    {
+        <br />
+        <br />
+        <br />
+        <br />
+        <h2> Nuk ka te dhena</h2>
+    }
+}
+
+

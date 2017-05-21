@@ -3,5 +3,10 @@
     ViewBag.Title = "Index";
 }
 
-<h2>@ViewBag.Res</h2>
-
+<form method="post" action="/TestAPI/Index">
+    <input type="text" name="answers" value="1" />
+    <input type="text" name="answers" value="4" />
+    <input type="text" name="answers" value="2" />
+    <input type="text" name="answers" value="8" />
+    <input type="submit" />
+</form>

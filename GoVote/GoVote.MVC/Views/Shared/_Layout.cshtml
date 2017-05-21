@@ -6,6 +6,8 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <script src="../../Scripts/d3.min.js" language="javascript"></script>
+    <script src="../../Scripts/c3.min.js" language="javascript"></script>
 
 </head>
 <body>
@@ -29,7 +31,7 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="body-content">
         @RenderBody()
         <hr />
         <footer>

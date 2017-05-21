@@ -11,8 +11,8 @@ namespace GoVote.API.Models.AppModels
         private static List<Person> _list = new List<Person>()
         {
             new Person() {
-                Id = 1,
-                Name = "Agon",
+                Id      = 1,
+                Name    = "Agon",
                 Surname = "Gashi"
             },
             new Person() {

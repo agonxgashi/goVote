@@ -1,0 +1,102 @@
+﻿@using GoVote.MVC.Infrastructure
+@using GoVote.MVC.Models
+@model GoVote.MVC.Models.Question
+
+@{
+    ViewBag.QRPath = "https://chart.googleapis.com/chart?chs=512x512&cht=qr&chl=" + HttpContext.Current.Request.Url;
+    bool a = Request.Cookies["GoVoteQuestion"] == null;
+}
+
+
+@{
+    ViewBag.Title = "Question";
+}
+
+<br />
+<br />
+<br />
+<br />
+
+
+@{
+    if (Request.Cookies["GoVoteQuestion"] != null)
+    {
+        <div class="container">
+
+            <div class="col-md-6">
+                <img class="img-thumbnail" style="width: 100%" src="@ViewBag.QRPath" alt="QR not avalabile" />
+            </div>
+
+            <div class="col-md-6" id="responsesPoll">
+                @Model.QuestionText
+                <br />
+                <ul>
+                    @{
+                        foreach (var modelAnswer in Model.Answers)
+                        {
+                            <li>@modelAnswer.AnswerText</li>
+                        }
+                    }
+                </ul>
+
+            </div>
+
+        </div>
+        <div class="clearBoth"></div>
+        <script>
+            window.setInterval(function MakeRequest() {
+                console.log('request started');
+                $.ajax({
+                    url    : 'http://localhost:64236/Home/Results?questionId=' + @Model.Id,
+                    type   : 'GET',
+                    success: function (data) {
+                        $('#responsesPoll').html(data);
+                    }
+                });
+                console.log('request finished');
+            }, 5000);
+        </script>
+                        }
+                        else
+                        {
+                            <div class="container">
+                                
+                                @{
+                                    if (Request.Cookies["Voted"] != null && Request.Cookies["Voted"].Value == @Model.Id.ToString())
+                                    {
+                                        <h2 class="text-danger text-center">You have votet on this question before.</h2>
+                                    }
+                                    else
+                                    {
+                                        <div class="well">
+                                            <label> @Model.QuestionText</label>
+                                        </div>
+                                        <form action="/Home/Vote">
+                                            <input type="hidden" value="@Model.Id" name="questionId" />
+                                            <div class="col-md-3 col-md-offset-1">
+                                                @{
+                                                    foreach (Answer modelAnswer in Model.Answers)
+                                                    {
+                                                        <div class="radio">
+                                                            <label><input type="radio" name="answerId" value="@modelAnswer.Id">@modelAnswer.AnswerText</label>
+                                                        </div>
+                                                    }
+                                                }
+
+                                                <div class="clearBoth"></div>
+                                                <input type="submit" class="btn btn-danger btn-block" value="Vote" />
+                                            </div>
+                                        </form>
+                                                    }
+
+                                }
+
+                                
+                            </div>
+
+
+    }
+}
+
+
+
