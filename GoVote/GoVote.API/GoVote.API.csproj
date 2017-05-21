@@ -233,7 +233,6 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\ATestController.cs" />
     <Compile Include="Controllers\VoteController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -243,7 +242,6 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppModels\Answer.cs" />
-    <Compile Include="Models\AppModels\Person.cs" />
     <Compile Include="Models\AppModels\Question.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\QuestionResponse.cs" />

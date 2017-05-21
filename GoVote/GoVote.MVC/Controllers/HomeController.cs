@@ -40,7 +40,7 @@ namespace GoVote.MVC.Controllers
 
         public ActionResult Question(string questionId)
         {
-            HttpClient c = new HttpClient();
+            HttpClient c     = new HttpClient();
             var a            = new HttpRequestMessage(HttpMethod.Get, ApiHelper.GetApiUrl() + "vote?uniqueId=" + questionId);
             c.Timeout        = TimeSpan.FromSeconds(10);
             var httpResponse = c.GetStringAsync(ApiHelper.GetApiUrl() + "vote?uniqueId=" + questionId);
@@ -55,9 +55,9 @@ namespace GoVote.MVC.Controllers
 
         public PartialViewResult Results(int questionId)
         {
-            HttpClient c = new HttpClient();
-            var a = new HttpRequestMessage(HttpMethod.Get, ApiHelper.GetApiUrl() + "vote/GetAll?qId=" + questionId);
-            c.Timeout = TimeSpan.FromSeconds(10);
+            HttpClient c     = new HttpClient();
+            var a            = new HttpRequestMessage(HttpMethod.Get, ApiHelper.GetApiUrl() + "vote/GetAll?qId=" + questionId);
+            c.Timeout        = TimeSpan.FromSeconds(10);
             var httpResponse = c.GetStringAsync(ApiHelper.GetApiUrl() + "vote/GetAll?qId=" + questionId);
 
             while (httpResponse.Status == TaskStatus.WaitingForActivation) { }
@@ -74,14 +74,14 @@ namespace GoVote.MVC.Controllers
 
         public ActionResult Vote(int questionId, int answerId)
         {
-            HttpClient c = new HttpClient();
-            var a = new HttpRequestMessage(HttpMethod.Get, ApiHelper.GetApiUrl() + "vote/GetAll?qId=" + questionId);
-            c.Timeout = TimeSpan.FromSeconds(10);
-            string ac = ApiHelper.GetApiUrl() + "vote/RegisterVote?questionId=" + questionId + "&answerId=" + answerId;
+            HttpClient c     = new HttpClient();
+            var a            = new HttpRequestMessage(HttpMethod.Get, ApiHelper.GetApiUrl() + "vote/GetAll?qId=" + questionId);
+            c.Timeout        = TimeSpan.FromSeconds(10);
+            string ac        = ApiHelper.GetApiUrl() + "vote/RegisterVote?questionId=" + questionId + "&answerId=" + answerId;
             var httpResponse = c.GetStringAsync(ApiHelper.GetApiUrl() + "vote/RegisterVote?questionId=" + questionId + "&answerId=" + answerId);
 
             HttpCookie cookie = new HttpCookie("Voted", questionId.ToString());
-            cookie.Expires = DateTime.MaxValue;
+            cookie.Expires    = DateTime.MaxValue;
             Response.Cookies.Add(cookie);
 
             return RedirectToAction("Index");

@@ -20,11 +20,11 @@ namespace GoVote.API.Methods
                 {
                     CommandText = "Vote.usp_CreateQuestion",
                     CommandType = CommandType.StoredProcedure,
-                    Connection = con
+                    Connection  = con
                 };
-                com.Parameters.AddWithValue("@param_QuestionText", q.QuestionText);
-                com.Parameters.AddWithValue("@param_ValidUntil", DateTime.Now.AddMinutes(10));
-                com.Parameters.AddWithValue("@param_IsPublic", q.IsPublic);
+                com.Parameters.AddWithValue("@param_QuestionText" , q.QuestionText);
+                com.Parameters.AddWithValue("@param_ValidUntil"   , DateTime.Now.AddMinutes(10));
+                com.Parameters.AddWithValue("@param_IsPublic"     , q.IsPublic);
                 com.Parameters.AddWithValue("@param_IsMultiselect", q.IsMultiselect);
 
                 try
@@ -32,19 +32,13 @@ namespace GoVote.API.Methods
                     con.Open();
                     var reader = com.ExecuteReader();
                     while (reader.Read())
-                    {
                         qId = reader[0].ToString();
-                    }
+
                     SaveAnswers(q.Answers, qId);
                     return qId;
                 }
-                catch (Exception e)
-                {
-
-                }
-
+                catch (Exception) { }
             }
-
             return "";
         }
 
@@ -57,8 +51,9 @@ namespace GoVote.API.Methods
                 {
                     CommandText = "Vote.usp_CreateAnswer",
                     CommandType = CommandType.StoredProcedure,
-                    Connection = con
+                    Connection  = con
                 };
+
                 con.Open();
                 foreach (var a in Answer)
                 {
@@ -69,21 +64,17 @@ namespace GoVote.API.Methods
                         com.Parameters.AddWithValue("@param_AnswerText", a.AnswerText);
                         try
                         {
-
                             com.ExecuteNonQuery();
                         }
-                        catch (Exception e)
-                        {
-                        }
+                        catch (Exception) { }
                     }
                 }
             }
         }
 
-
         public static Question GetQuestionByUniqueId(string uniqueId)
         {
-            Question q = new Question();
+            Question q            = new Question();
             bool isQuestionFilled = false;
             using (SqlConnection con = new SqlConnection(DBHelper.GetConStr()))
             {
@@ -91,41 +82,37 @@ namespace GoVote.API.Methods
                 {
                     CommandText = "Vote.usp_getQuestionByUniqueId",
                     CommandType = CommandType.StoredProcedure,
-                    Connection = con
-                };
-                com.Parameters.AddWithValue("@param_UniqueId", Guid.Parse(uniqueId));
+                    Connection  = con
+                };                
 
                 try
                 {
+                    com.Parameters.AddWithValue("@param_UniqueId", Guid.Parse(uniqueId));
                     con.Open();
                     var reader = com.ExecuteReader();
                     while (reader.Read())
                     {
                         if (!isQuestionFilled)
                         {
-                            q.Id = int.Parse(reader["Id"].ToString());
-                            q.UniqueId = Guid.Parse(reader["UniqueId"].ToString());
-                            q.QuestionText = reader["QuestionText"].ToString();
-                            q.AskedBy = !String.IsNullOrEmpty(reader["AskedBy"].ToString())
-                                ? int.Parse(reader["AskedBy"].ToString())
-                                : 0;
-                            q.IsMultiselect = bool.Parse(reader["IsMultiselect"].ToString());
-                            q.DateCreated = DateTime.Parse(reader["DateCreated"].ToString());
-                            q.ValidUntil = DateTime.Parse(reader["ValidUntil"].ToString());
-                            q.IsActive = bool.Parse(reader["IsActive"].ToString());
-                            q.IsPublic = bool.Parse(reader["IsPublic"].ToString());
+                            q.Id             = int.Parse(reader["Id"].ToString());
+                            q.UniqueId       = Guid.Parse(reader["UniqueId"].ToString());
+                            q.QuestionText   = reader["QuestionText"].ToString();
+                            q.AskedBy        = !String.IsNullOrEmpty(reader["AskedBy"].ToString()) ? int.Parse(reader["AskedBy"].ToString()) : 0;
+                            q.IsMultiselect  = bool.Parse(reader["IsMultiselect"].ToString());
+                            q.DateCreated    = DateTime.Parse(reader["DateCreated"].ToString());
+                            q.ValidUntil     = DateTime.Parse(reader["ValidUntil"].ToString());
+                            q.IsActive       = bool.Parse(reader["IsActive"].ToString());
+                            q.IsPublic       = bool.Parse(reader["IsPublic"].ToString());
+                            isQuestionFilled = true;
                         }
                         q.Answers.Add(new Answer()
                         {
-                            Id = int.Parse(reader["AnswerId"].ToString()),
+                            Id         = int.Parse(reader["AnswerId"].ToString()),
                             AnswerText = reader["AnswerText"].ToString()
                         });
                     }
                 }
-                catch (Exception e)
-                {
-
-                }
+                catch (Exception) { }
             }
             return q;
 
@@ -175,7 +162,7 @@ namespace GoVote.API.Methods
                 {
                     CommandText = "Vote.usp_RegisterResponse",
                     CommandType = CommandType.StoredProcedure,
-                    Connection = con
+                    Connection  = con
                 };
                 try
                 {
@@ -183,19 +170,8 @@ namespace GoVote.API.Methods
                     com.Parameters.AddWithValue("@param_QuestionId", questionId);
                     com.Parameters.AddWithValue("@param_AnswerId", answerId);
                     com.ExecuteNonQuery();
-
-                    //foreach (var i in answerId)
-                    //{
-                    //    com.Parameters.Clear();
-                    //    com.Parameters.AddWithValue("@param_QuestionId", questionId);
-                    //    com.Parameters.AddWithValue("@param_QuestionId", i);
-                    //    //com.ExecuteNonQuery();
-                    //}
-
                 }
-                catch (Exception e)
-                {
-                }
+                catch (Exception) { }
             }
         }
 

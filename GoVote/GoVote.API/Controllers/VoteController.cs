@@ -16,15 +16,12 @@ namespace GoVote.API.Controllers
         [HttpGet]
         public string Put(string questionJSON)
         {
-            string uniqueIdOfSavedQuestion = QuestionHelper.SaveQuestion(questionJSON);
-            return uniqueIdOfSavedQuestion;
+            return QuestionHelper.SaveQuestion(questionJSON);
         }
 
         public Question Get(string uniqueId)
         {
-            Question q = QuestionHelper.GetQuestionByUniqueId(uniqueId);
-            //string jj = JsonConvert.SerializeObject(q);
-            return q;
+            return QuestionHelper.GetQuestionByUniqueId(uniqueId);
         }
 
         public List<QuestionResponse> GetAll(int qId)
