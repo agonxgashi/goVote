@@ -7,9 +7,9 @@ using System.Data.SqlClient;
 
 namespace GoVote.API.Methods
 {
-    public class QuestionHelper
+    public class QuestionHelper: MarshalByRefObject,IQuestionHelper
     {
-        public static string SaveQuestion(string question)
+        public string SaveQuestion(string question)
         {
             string qId = String.Empty;
             Question q = JsonConvert.DeserializeObject<Question>(question);
@@ -43,7 +43,7 @@ namespace GoVote.API.Methods
         }
 
 
-        private static void SaveAnswers(ICollection<Answer> Answer, string questrionId)
+        public  void SaveAnswers(ICollection<Answer> Answer, string questrionId)
         {
             using (SqlConnection con = new SqlConnection(DBHelper.GetConStr()))
             {
@@ -72,7 +72,7 @@ namespace GoVote.API.Methods
             }
         }
 
-        public static Question GetQuestionByUniqueId(string uniqueId)
+        public Question GetQuestionByUniqueId(string uniqueId)
         {
             Question q            = new Question();
             bool isQuestionFilled = false;
@@ -118,7 +118,7 @@ namespace GoVote.API.Methods
 
         }
 
-        public static List<QuestionResponse> GetAllResponses(int id)
+        public List<QuestionResponse> GetAllResponses(int id)
         {
             List<QuestionResponse> res = new List<QuestionResponse>();
             using (SqlConnection con = new SqlConnection(DBHelper.GetConStr()))
@@ -154,7 +154,7 @@ namespace GoVote.API.Methods
             return res;
         }
 
-        public static void RegisterVote(int questionId, int answerId)
+        public void RegisterVote(int questionId, int answerId)
         {
             using (SqlConnection con = new SqlConnection(DBHelper.GetConStr()))
             {

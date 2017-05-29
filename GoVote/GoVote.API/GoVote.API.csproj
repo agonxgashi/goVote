@@ -238,6 +238,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Methods\DBHelper.cs" />
+    <Compile Include="Methods\IQuestionHelper.cs" />
     <Compile Include="Methods\QuestionHelper.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />

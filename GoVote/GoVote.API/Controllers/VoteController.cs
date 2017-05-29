@@ -12,27 +12,31 @@ namespace GoVote.API.Controllers
 {
     public class VoteController : ApiController
     {
+        IQuestionHelper remoteObject;
 
+        public VoteController() {
+            remoteObject = new QuestionHelper();
+        }
         [HttpGet]
         public string Put(string questionJSON)
         {
-            return QuestionHelper.SaveQuestion(questionJSON);
+            return remoteObject.SaveQuestion(questionJSON);
         }
 
         public Question Get(string uniqueId)
         {
-            return QuestionHelper.GetQuestionByUniqueId(uniqueId);
+            return remoteObject.GetQuestionByUniqueId(uniqueId);
         }
 
         public List<QuestionResponse> GetAll(int qId)
         {
-            return QuestionHelper.GetAllResponses(qId);
+            return remoteObject.GetAllResponses(qId);
         }
 
         [HttpGet]
         public void RegisterVote(int questionId, int answerId)
         {
-            QuestionHelper.RegisterVote(questionId, answerId);
+            remoteObject.RegisterVote(questionId, answerId);
         }
 
     }
